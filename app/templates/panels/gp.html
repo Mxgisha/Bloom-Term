@@ -1,0 +1,32 @@
+{% set q = q %}
+<div class="quote-line">
+  <span class="big {{ q.direction }}">{{ q.last|price }}</span>
+  <span class="{{ q.direction }}">{{ q.chg|signed }}</span>
+  <span class="{{ q.direction }}">{{ q.pct|pct }}</span>
+  <span class="muted">prev {{ q.prev_close|price }}</span>
+</div>
+
+<div class="ranges">
+  {% for r in ranges %}
+  <button type="button" class="tab{% if r == range %} on{% endif %}" data-range="{{ r }}">{{ r }}</button>
+  {% endfor %}
+</div>
+
+<div class="chartwrap">
+  <svg class="chart" viewBox="0 0 600 150" preserveAspectRatio="none" aria-hidden="true">
+    <line class="grid" x1="0" y1="37" x2="600" y2="37"/>
+    <line class="grid" x1="0" y1="75" x2="600" y2="75"/>
+    <line class="grid" x1="0" y1="113" x2="600" y2="113"/>
+    <path class="line" d="{{ path }}"/>
+  </svg>
+</div>
+
+<div class="volwrap">
+  <svg class="vol" viewBox="0 0 600 34" preserveAspectRatio="none" aria-hidden="true">
+    {% for r in rects %}<rect x="{{ r.x }}" y="{{ r.y }}" width="{{ r.w }}" height="{{ r.h }}"/>{% endfor %}
+  </svg>
+</div>
+
+<div class="stats-line">
+  <span>hi {{ hi|price }}</span><span>lo {{ lo|price }}</span><span>vol {{ volume|vol }}</span>
+</div>

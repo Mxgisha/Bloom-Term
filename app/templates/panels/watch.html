@@ -1,0 +1,22 @@
+<table class="t watch">
+  <colgroup>
+    <col style="width:64px"><col><col style="width:44px"><col style="width:80px"><col style="width:68px"><col style="width:68px">
+  </colgroup>
+  <thead>
+    <tr><th>sym</th><th></th><th></th><th class="num">last</th><th class="num">chg</th><th class="num">%</th></tr>
+  </thead>
+  <tbody>
+    {% for r in rows %}
+    <tr data-sym="{{ r.sym }}">
+      <td class="sym">{{ r.sym }}</td>
+      <td class="name">{{ r.name }}</td>
+      <td class="sp"><svg viewBox="0 0 54 16" width="44" height="14" aria-hidden="true">
+        <path d="{{ r.spark }}" fill="none" stroke="currentColor" stroke-width="1"
+              vector-effect="non-scaling-stroke" class="{{ r.dir }}"/></svg></td>
+      <td class="num last {{ r.dir }}">{{ r.q.last|price }}</td>
+      <td class="num {{ r.dir }}" data-f="chg">{{ r.q.chg|signed }}</td>
+      <td class="num {{ r.dir }}" data-f="pct">{{ r.q.pct|pct }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

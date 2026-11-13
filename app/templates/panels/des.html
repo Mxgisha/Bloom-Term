@@ -1,0 +1,18 @@
+<div class="des">
+  <div class="kv"><span>name</span><b>{{ d.name }}</b></div>
+  <div class="kv"><span>last</span><b class="{{ q.direction }}">{{ q.last|price }}</b></div>
+  <div class="kv"><span>sector</span><b>{{ d.sector }}</b></div>
+  <div class="kv"><span>chg</span><b class="{{ q.direction }}">{{ q.chg|signed }} · {{ q.pct|pct }}</b></div>
+  <div class="kv"><span>exchange</span><b>{{ d.exchange }}</b></div>
+  <div class="kv"><span>prev close</span><b>{{ d.prev_close|price }}</b></div>
+  <div class="kv"><span>currency</span><b>{{ d.currency }}</b></div>
+  <div class="kv"><span>open</span><b>{{ q.open|price }}</b></div>
+  <div class="kv"><span>mkt cap</span><b>{{ d.cap|compact }}</b></div>
+  <div class="kv"><span>52w high</span><b>{{ d.hi52|price }}</b></div>
+  <div class="kv"><span>p/e</span><b>{{ d.pe|num1 }}</b></div>
+  <div class="kv"><span>52w low</span><b>{{ d.lo52|price }}</b></div>
+  <div class="kv"><span>div yld</span><b>{{ d.div }}%</b></div>
+  <div class="kv"><span>avg vol</span><b>{{ d.avg_vol|vol }}</b></div>
+  <div class="kv"><span>beta</span><b>{{ d.beta|num2 }}</b></div>
+  <div class="kv"><span>volume</span><b>{{ q.volume|vol }}</b></div>
+</div>

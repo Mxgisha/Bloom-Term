@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>bloomterm</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect width='16' height='16' fill='%230b0d0f'/%3E%3Crect x='3' y='9' width='2' height='4' fill='%23d8a33a'/%3E%3Crect x='7' y='5' width='2' height='8' fill='%23d8a33a'/%3E%3Crect x='11' y='2' width='2' height='11' fill='%23d8a33a'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="/static/app.css?v={{ version }}">
+</head>
+<body data-preset="{{ preset }}">
+  <header class="topbar">
+    <span class="brand">bloomterm</span>
+    <form id="cmd" autocomplete="off">
+      <span class="prompt">&gt;</span>
+      <input id="q" name="q" placeholder="AAPL GP" spellcheck="false" autocomplete="off"
+             autocapitalize="off" aria-label="command line">
+    </form>
+    <span id="hint" class="hint" role="status" aria-live="polite"></span>
+    <div class="top-status">
+      <span class="tag">{{ provider }}</span>
+      {% if stream_live %}<span class="tag live">finnhub rt</span>{% else %}<span class="tag">{{ delay }}</span>{% endif %}
+      <span id="clock">{{ clock }} ET</span>
+      <span class="mkt {{ mkt_class }}">{{ mkt }}</span>
+    </div>
+  </header>
+
+  <main class="grid" id="grid" style="--cols: {{ cols }}">
+    {% for panel in panels %}{{ panel }}{% endfor %}
+  </main>
+
+  <footer class="statusbar">
+    <span>{{ provider }} · tick {{ tick_age }}s · {{ panels|length }} panels</span>
+    <span class="spacer"></span>
+    <span>? help · / command · alt+1–6 focus</span>
+    <span class="sep">│</span>
+    <span>v{{ version }}</span>
+  </footer>
+
+  <section id="help" class="help" hidden>
+    <div class="help-col">
+      <h2>functions</h2>
+      <table class="help-t">
+        {% for f in functions %}
+        <tr><td class="k">{{ f.code }}</td><td>{{ f.title }}</td><td class="t">{{ 'ticker' if f.needs_ticker else '—' }}</td></tr>
+        {% endfor %}
+      </table>
+    </div>
+    <div class="help-col">
+      <h2>keys</h2>
+      <table class="help-t">
+        <tr><td class="k">/ ctrl+k</td><td>command line</td></tr>
+        <tr><td class="k">enter</td><td>run · open news</td></tr>
+        <tr><td class="k">esc</td><td>blur / close</td></tr>
+        <tr><td class="k">tab</td><td>next panel</td></tr>
+        <tr><td class="k">j k</td><td>news selection</td></tr>
+        <tr><td class="k">alt+1–6</td><td>focus panel</td></tr>
+        <tr><td class="k">[ ]</td><td>chart range</td></tr>
+        <tr><td class="k">?</td><td>this list</td></tr>
+      </table>
+    </div>
+    <div class="help-col">
+      <h2>syntax</h2>
+      <table class="help-t">
+        <tr><td class="k">AAPL GP</td><td>graph for AAPL</td></tr>
+        <tr><td class="k">AAPL</td><td>describe AAPL</td></tr>
+        <tr><td class="k">N</td><td>news</td></tr>
+      </table>
+      <h2 class="gap">aliases</h2>
+      <table class="help-t">
+        {% for a, target in aliases.items() %}
+        <tr><td class="k">{{ a }}</td><td>{{ target }}</td></tr>
+        {% endfor %}
+      </table>
+    </div>
+  </section>
+
+  <script src="/static/app.js?v={{ version }}" defer></script>
+</body>
+</html>
