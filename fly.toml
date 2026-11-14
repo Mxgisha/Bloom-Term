@@ -1,0 +1,24 @@
+# `fly launch --no-deploy` rewrites `app` to a name that is unique on Fly.
+app = "bloomterm-demo"
+primary_region = "iad"
+
+[build]
+  dockerfile = "Dockerfile"
+
+[env]
+  # A public instance serves generated data; no feed is re-published, no key is exposed.
+  BLOOMTERM_PROVIDER = "mock"
+
+[http_service]
+  internal_port = 8420
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+  [[http_service.checks]]
+    interval = "30s"
+    timeout = "5s"
+    grace_period = "10s"
+    method = "GET"
+    path = "/api/health"

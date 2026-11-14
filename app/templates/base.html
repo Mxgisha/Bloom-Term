@@ -17,8 +17,8 @@
     </form>
     <span id="hint" class="hint" role="status" aria-live="polite"></span>
     <div class="top-status">
-      <span class="tag">{{ provider }}</span>
-      {% if stream_live %}<span class="tag live">finnhub rt</span>{% else %}<span class="tag">{{ delay }}</span>{% endif %}
+      <span class="tag">{{ 'demo' if demo else provider }}</span>
+      {% if stream_live %}<span class="tag live">finnhub rt</span>{% elif demo %}<span class="tag">simulated data</span>{% else %}<span class="tag">{{ delay }}</span>{% endif %}
       <span id="clock">{{ clock }} ET</span>
       <span class="mkt {{ mkt_class }}">{{ mkt }}</span>
     </div>
@@ -29,7 +29,7 @@
   </main>
 
   <footer class="statusbar">
-    <span>{{ provider }} · tick {{ tick_age }}s · {{ panels|length }} panels</span>
+    <span>{% if demo %}demo · generated data{% else %}{{ provider }} · tick {{ tick_age }}s{% endif %} · {{ panels|length }} panels</span>
     <span class="spacer"></span>
     <span>? help · / command · alt+1–6 focus</span>
     <span class="sep">│</span>

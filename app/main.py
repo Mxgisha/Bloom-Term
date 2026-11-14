@@ -270,6 +270,7 @@ def index(request: Request) -> HTMLResponse:
             "clock": market.clock(),
             "tick_age": tick_age,
             "stream_live": stream.state() == "live",
+            "demo": provider.name == "mock",
             "mkt": state,
             "mkt_class": state_class,
             "functions": list(FUNCTIONS.values()),

@@ -25,6 +25,12 @@ Offline or rate-limited? Run on generated data instead:
 BLOOMTERM_PROVIDER=mock .venv/bin/python run.py
 ```
 
+Or run the container, which defaults to that same generated data:
+
+```bash
+docker build -t bloomterm . && docker run -p 8420:8420 bloomterm
+```
+
 ## Use it
 
 Type a **ticker and a function**, or a function alone.
@@ -160,7 +166,34 @@ Adding a panel: an entry in `functions.py`, a template in `templates/panels/`, a
 `tests/conftest.py` forces the mock provider, so the suite never touches Yahoo or Finnhub.
 `BLOOMTERM_PROVIDER=mock python run.py` does the same for the app itself.
 
+The same three commands run in CI on Python 3.12 and 3.13 — see
+[`.github/workflows/ci.yml`](.github/workflows/ci.yml).
+
+## Deploy
+
+The container is the deployable unit. It defaults to `BLOOMTERM_PROVIDER=mock`, so a public
+instance serves generated data: nothing is re-published, no key is exposed, and it cannot be
+broken by an upstream API change.
+
+| Host | What to do |
+| --- | --- |
+| Fly.io | `fly launch --no-deploy` (rewrites `app` in `fly.toml`), then `fly deploy` |
+| Render / Railway | point at the repo; the Dockerfile is detected and `PORT` is injected |
+| Any VPS | `docker run -d -p 80:8420 --restart unless-stopped bloomterm`, TLS in front |
+
+A private instance with real data is the same image with the switch flipped:
+
+```bash
+docker run -e BLOOMTERM_PROVIDER=yahoo -e FINNHUB_API_KEY=... -p 8420:8420 bloomterm
+```
+
+Put authentication in front of that one. The app has none, by design.
+
 ## Docs
 
 - [PLAN.md](PLAN.md) — scope, interaction model, build order, and what is deliberately missing
 - [docs/DATA.md](docs/DATA.md) — free market-data sources compared, and why the stream is an overlay
+
+## License
+
+MIT — see [LICENSE](LICENSE).
